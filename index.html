@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Clark - Free Bootstrap 4 Template by Colorlib</title>
+    <title>Harsh Patel</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-    <nav
+    <header
       class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target"
       id="ftco-navbar"
     >
@@ -49,7 +49,7 @@
           <span class="oi oi-menu"></span> Menu
         </button>
 
-        <div class="collapse navbar-collapse" id="ftco-nav">
+        <nav class="collapse navbar-collapse" id="ftco-nav">
           <ul class="navbar-nav nav ml-auto">
             <li class="nav-item">
               <a href="#home-section" class="nav-link"><span>Home</span></a>
@@ -69,10 +69,11 @@
               >
             </li>
           </ul>
-        </div>
+        </nav>
       </div>
-    </nav>
-    <section id="home-section" class="hero">
+    </header>
+
+    <section class="hero">
       <div class="home-slider owl-carousel">
         <div class="slider-item">
           <div class="overlay"></div>
@@ -250,7 +251,7 @@
       </div>
     </section>
 
-    <section class="ftco-section" id="skills-section">
+    <section class="ftco-section ftco-no-pb" id="skills-section">
       <div class="container">
         <div class="row justify-content-center pb-5">
           <div class="col-md-12 heading-section text-center ftco-animate">
@@ -404,56 +405,6 @@
     </section>
 
     <section
-      class="ftco-section ftco-no-pt ftco-no-pb ftco-counter img"
-      id="section-counter"
-    >
-      <div class="container">
-        <div class="row d-md-flex align-items-center">
-          <div
-            class="col-md d-flex justify-content-center counter-wrap ftco-animate"
-          >
-            <div class="block-18">
-              <div class="text">
-                <strong class="number" data-number="100">0</strong>
-                <span>Awards</span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="col-md d-flex justify-content-center counter-wrap ftco-animate"
-          >
-            <div class="block-18">
-              <div class="text">
-                <strong class="number" data-number="1200">0</strong>
-                <span>Complete Projects</span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="col-md d-flex justify-content-center counter-wrap ftco-animate"
-          >
-            <div class="block-18">
-              <div class="text">
-                <strong class="number" data-number="1200">0</strong>
-                <span>Happy Customers</span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="col-md d-flex justify-content-center counter-wrap ftco-animate"
-          >
-            <div class="block-18">
-              <div class="text">
-                <strong class="number" data-number="500">0</strong>
-                <span>Cups of coffee</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section
       class="ftco-section contact-section ftco-no-pb"
       id="contact-section"
     >
@@ -526,29 +477,42 @@
               <div class="form-group">
                 <input
                   type="text"
-                  class="form-control"
-                  placeholder="Your Name"
+                  class="form-control item"
+                  placeholder="Enter Your Name"
+                  id="name"
                 />
+                <span class="error-text">Name can't be blank</span>
               </div>
               <div class="form-group">
                 <input
                   type="text"
-                  class="form-control"
-                  placeholder="Your Email"
+                  class="form-control item"
+                  placeholder="Enter Your Email"
+                  id="email"
                 />
+                <span class="error-text email">Email can't be blank</span>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Subject" />
+                <input
+                  type="number"
+                  class="form-control item"
+                  placeholder="Enter Your Phone Number"
+                  id="phone"
+                />
+                <span class="error-text phone"
+                  >Phone Number can't be blank</span
+                >
               </div>
               <div class="form-group">
                 <textarea
                   name=""
-                  id=""
+                  id="message"
                   cols="30"
                   rows="7"
-                  class="form-control"
-                  placeholder="Message"
+                  class="form-control item"
+                  placeholder="Enter Your Message"
                 ></textarea>
+                <span class="error-text">Message can't be blank</span>
               </div>
               <div class="form-group">
                 <!-- <input
@@ -628,27 +592,132 @@
     <script src="js/scrollax.min.js"></script>
 
     <script src="https://smtpjs.com/v3/smtp.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/main.js"></script>
 
     <script>
       const form = document.querySelector("form");
+      const name = document.getElementById("name");
+      const email = document.getElementById("email");
+      const phone = document.getElementById("phone");
+      const message = document.getElementById("message");
+
       function sendEmail() {
+        const bodyMessage = `Name: ${name.value} <br> Email: ${email.value} <br> Phone: ${phone.value} <br> message: ${message.value} <br>`;
+
         Email.send({
+          SecureToken: "6f811dd9-ae10-4d96-adf2-28482180dede",
           Host: "smtp.elasticemail.com",
           Username: "hp92448@gmail.com",
           Password: "AF3EBA37C10B5D212CAC6192FB462133180C",
           To: "hp92448@gmail.com",
           From: "hp92448@gmail.com",
           Subject: "This is the subject",
-          Body: "And this is the body",
-        }).then((message) => alert(message));
+          Body: bodyMessage,
+        }).then((message) => {
+          if (message == "OK") {
+            Swal.fire({
+              title: "Success",
+              text: "message sent Successfully!",
+              icon: "success",
+            });
+          }
+        });
+      }
+
+      function checkInputs() {
+        const items = document.querySelectorAll(".item");
+
+        for (const item of items) {
+          if (item.value == "") {
+            item.classList.add("error");
+            item.parentElement.classList.add("error");
+          }
+
+          if (items[1].value != "") {
+            checkEmail();
+          }
+
+          items[1].addEventListener("keyup", () => {
+            checkEmail();
+          });
+
+          if (items[2].value != "") {
+            checkPhone();
+          }
+
+          items[2].addEventListener("keyup", () => {
+            checkPhone();
+          });
+
+          item.addEventListener("keyup", () => {
+            if (item.value != "") {
+              item.classList.remove("error");
+              item.parentElement.classList.remove("error");
+            } else {
+              item.classList.add("error");
+              item.parentElement.classList.add("error");
+            }
+          });
+        }
+      }
+
+      function checkEmail() {
+        const emailRegex =
+          /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,3})(\.[a-z]{2,3})?$/;
+        const errorTextEmail = document.querySelector(".error-text.email");
+
+        if (!email.value.match(emailRegex)) {
+          email.classList.add("error");
+          email.parentElement.classList.add("error");
+
+          if (email.value != "") {
+            errorTextEmail.innerText = "Enter a valid Email";
+          } else {
+            errorTextEmail.innerText = "Email can't be blank";
+          }
+        } else {
+          email.classList.remove("error");
+          email.parentElement.classList.remove("error");
+        }
+      }
+
+      function checkPhone() {
+        const phoneRegex =
+          /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+
+        const errorTextPhone = document.querySelector(".error-text.phone");
+
+        if (!phone.value.match(phoneRegex)) {
+          phone.classList.add("error");
+          phone.parentElement.classList.add("error");
+
+          if (phone.value != "") {
+            errorTextPhone.innerText = "Enter a valid Phone Number";
+          } else {
+            errorTextPhone.innerText = "Phone Number can't be blank";
+          }
+        } else {
+          phone.classList.remove("error");
+          phone.parentElement.classList.remove("error");
+        }
       }
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
+        checkInputs();
 
-        sendEmail();
+        if (
+          !name.classList.contains("error") &&
+          !email.classList.contains("error") &&
+          !phone.classList.contains("error") &&
+          !message.classList.contains("error")
+        ) {
+          sendEmail();
+
+          form.reset();
+          return false;
+        }
       });
     </script>
   </body>
